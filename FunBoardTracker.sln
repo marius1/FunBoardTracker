@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunBoardTracker.Viewer", "FunBoardTracker.Viewer\FunBoardTracker.Viewer.csproj", "{021E3E6E-3869-46E4-9BD6-1A669E0D5B8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDll", "ExternalDll", "{3DC46D52-53F0-433D-AD20-2CA9CA162189}"
+	ProjectSection(SolutionItems) = preProject
+		ExternalDll\AForge.Vision.GlyphRecognition.dll = ExternalDll\AForge.Vision.GlyphRecognition.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunBoardTracker", "FunBoardTracker\FunBoardTracker.csproj", "{89C709FB-B83F-4BDA-AD4A-CC54ED915F7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{021E3E6E-3869-46E4-9BD6-1A669E0D5B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021E3E6E-3869-46E4-9BD6-1A669E0D5B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021E3E6E-3869-46E4-9BD6-1A669E0D5B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021E3E6E-3869-46E4-9BD6-1A669E0D5B8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89C709FB-B83F-4BDA-AD4A-CC54ED915F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C709FB-B83F-4BDA-AD4A-CC54ED915F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C709FB-B83F-4BDA-AD4A-CC54ED915F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C709FB-B83F-4BDA-AD4A-CC54ED915F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
