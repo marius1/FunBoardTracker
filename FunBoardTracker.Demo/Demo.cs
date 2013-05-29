@@ -33,7 +33,7 @@ namespace FunBoardTracker.Demo
                     PictureBoxSizeMode.StretchImage,
                     PictureBoxSizeMode.Zoom
                 });
-            cmbSizeMode.SelectedIndex = 0;
+            cmbSizeMode.SelectedItem = PictureBoxSizeMode.Zoom;
         }
 
         private void InitializeRecognizers()
