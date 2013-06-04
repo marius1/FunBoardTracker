@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AForge.Imaging.Filters;
 using AForge.Vision.GlyphRecognition;
 using FundaBoardTracker;
 
@@ -22,6 +23,8 @@ namespace FunBoardTracker.Demo
             InitializeRecognizers();
             InitializeSizeModes();
         }
+
+        #region Initialize
 
         private void InitializeSizeModes()
         {
@@ -108,18 +111,23 @@ namespace FunBoardTracker.Demo
             cmbFiles.SelectedIndex = 0;
         }
 
+        #endregion
+
         private void DoRecognition(Bitmap bmp)
         {
             Recognizer recognizer = (Recognizer)cmbRecognizer.SelectedItem;
 
-            /*BaseRotateFilter rotate = new RotateBilinear(180);
-            bmp = rotate.Apply(bmp);*/
+            if (chkFlip.Checked)
+            {
+                BaseRotateFilter rotate = new RotateBilinear(180);
+                bmp = rotate.Apply(bmp);
+            }
 
-            /*BrightnessCorrection bright = new BrightnessCorrection(32);
-            bright.ApplyInPlace(bmp);*/
+            ContrastCorrection contract = new ContrastCorrection(trackContrast.Value);
+            contract.ApplyInPlace(bmp);
 
-            /*ContrastCorrection contract = new ContrastCorrection(48);
-            contract.ApplyInPlace(bmp);*/
+            BrightnessCorrection bright = new BrightnessCorrection(trackBrightness.Value);
+            bright.ApplyInPlace(bmp);
 
             List<ExtractedGlyphData> foundGlyphs = recognizer.GlyphRecognizer.FindGlyphs(bmp);
 
