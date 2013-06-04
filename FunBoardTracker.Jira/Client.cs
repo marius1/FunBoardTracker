@@ -14,9 +14,9 @@ namespace FunBoardTracker.Jira
     {
         SimpleRestClient simpleRestClient;
 
-        public Client()
+        public Client(string username, string password)
         {
-            simpleRestClient = new SimpleRestClient("https://jira.funda.nl/", new NetworkCredential("marius", "appeltaart123!"));
+            simpleRestClient = new SimpleRestClient("https://jira.funda.nl/", new NetworkCredential(username, password));
         }
 
         public List<RapidView> GetRapidViews()
