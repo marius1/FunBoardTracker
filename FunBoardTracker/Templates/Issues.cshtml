@@ -1,0 +1,67 @@
+﻿@model FunBoardTracker.Templates.IssuesModel
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        div.issue {
+            width: 450px;
+            height: 420px;
+            padding: 10px 0px 10px 0px;            
+        }
+
+        div.odd {
+            float: left;
+        }
+
+        div.even {
+            float: right;
+        }
+
+        div.issue h1 {
+            margin: 0px;
+            display: block;
+            height: 35px;
+        }
+
+        div.issue h3 {
+            margin: 5px 0px 5px 0px;
+            display: block;
+            height: 40px;
+        }
+
+        div.issue div.info {
+            padding-bottom: 5px;
+        }
+
+        div.issue div.assignee {
+            border: 2px solid black;
+            width: 150px;
+            height: 150px;
+            float: left;
+        }
+
+        div.issue img.tag {
+            width: 250px;
+            height: 250px;
+            float: right;
+        }
+
+    </style>
+</head>
+<body>
+    @{ var odd = true; }
+    @foreach(var issue in Model.Issues) {
+        <div class="issue @(odd ? "odd" : "even")" id="@issue.Id">
+            <div class="info">
+                <h1>@issue.Key</h1>
+                <h3>@issue.Summary</h3>
+                <span>Estimate: </span>@issue.EstimateStatistic.StatFieldValue.Value
+            </div>
+            <div class="assignee"></div>
+            <img class="tag" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAYAAACI7Fo9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAZhSURBVHhe7dGxDQNADMPA7L90kgHY+0WQwDXqDH/+fZPo4ZjEBcckLjgmccExiQuOSVxwTOKCYxIXHJO44JjEBcckLjgmccExiQuOSVxwTOKCYxIXHJO44JjEBcckLjgmccExiQuOSVxwTOKCYxIXHJO44JjEBcckLjgmccExiQuOSVxwTOKCYxIXHJO44JjEBcckLjgmccExiQuOSVxwTOKCYxIXHJO44JjEBcckLjgmccExiQuOSVxwTOKCYxIXHJO44JjEBcc59Vb0o5zCcU69Ff0op3CcU29FP8opHOfUW9GPcgrHOfVW9KOcwnFOvRX9KKdwnFNvRT/KKRzn1FvRj3IKxzn1VvSjnMJxTr0V/SincJxTb0U/yikc59Rb0Y9yCsc59Vb0o5zCcU69Ff0op3CcU29FP8opHOfUW9GPcgrHOfVW9KOcwnFOvRX9KKdwnFNvRT/KKRzn1FvRj3IKxzn1VvSjnMJxTr0V/SincJxTb0U/yikc59Rb0Y9yCsc59Vb0o5zCcU69Ff0op3CcU29FP8opHOfUW9GPcgrHOfVW9KOcwnFOvRX9KKdwnFNvRT/KKRzn1FvRj3IKxzn1VvSjnMJxTr0V/SincJxTb0U/yikc59Rb0Y9yCsc59Vb0o5zCcU69Ff0op3CcU29FP8opHOfUW9GPcgrHOfVW9KOcwnFOvRX9KKdwnFNvRT/KKRzn1FvRj3IKxzn1VvSjnMJxTr0V/SincJxTb0U/yikc59Rb0Y9yCsc59Vb0o5zCcU69Ff0op3DMEUt0W07hmCOW6LacwjFHLNFtOYVjjlii23IKxxyxRLflFI45Yoluyykcc8QS3ZZTOOaIJbotp3DMEUt0W07hmCOW6LacwjFHLNFtOYVjjlii23IKxxyxRLflFI45Yoluyykcc8QS3ZZTOOaIJbotp3DMEUt0W07hmCOW6LacwjFHLNFtOYVjjlii23IKxxyxRLflFI45Yoluyykcc8QS3ZZTOOaIJbotp3DMEUt0W07hmCOW6LacwjFHLNFtOYVjjlii23IKxxyxRLflFI45Yoluyykcc8QS3ZZTOOaIJbotp3DMEUt0W07hmCOW6LacwjFHLNFtOYVjjlii23IKxxyxRLflFI45Yoluyykcc8QS3ZZTOOaIJbotp3DMEUt0W07hmCOW6LacwjFHLNFtOYVjjlii23IKxxyxRLflFI45Yoluyykcc8QS3ZZTOOaIJbotp3DMEUt0W07hmCOW6LacwnGOJbptkSW6bRSOcyzRbYss0W2jcJxjiW5bZIluG4XjHEt02yJLdNsoHOdYotsWWaLbRuE4xxLdtsgS3TYKxzmW6LZFlui2UTjOsUS3LbJEt43CcY4lum2RJbptFI5zLNFtiyzRbaNwnGOJbltkiW4bheMcS3TbIkt02ygc51ii2xZZottG4TjHEt22yBLdNgrHOZbotkWW6LZROM6xRLctskS3jcJxjiW6bZElum0UjnMs0W2LLNFto3CcY4luW2SJbhuF4xxLdNsiS3TbKBznWKLbFlmi20bhOMcS3bbIEt02Csc5lui2RZbotlE4zrFEty2yRLeNwnGOJbptkSW6bRSOcyzRbYss0W2jcJxjiW5bZIluG4XjHEt02yJLdNsoHOdYotsWWaLbRuE4xxLdtsgS3TYKxzmW6LZFlui2UTjOsUS3LbJEt43CcY4lum2RJbptFI5zLNFtiyzRbaNwnGOJbltkiW4bheMcS3TbIkt02ygc51ii2xZZottG4TjHEt22yBLdNgrHOZbotkWW6LZROM6xRLctskS3jcJxjiW6bZElum0UjnMs0W2LLNFto3CcY4luW2SJbhuF4xxLdNsiS3TbKBznWKLbFlmi20bhOMcS3bbIEt02Csc5lui2RZbotlE4zrFEty2yRLeNwnGOJbptkSW6bRSOcyzRbYss0W2jcEzigmMSFxyTuOCYxAXHJC44JnHBMYkLjklccEzigmMSFxyTuOCYxAXHJC44JnHBMYkLjklccEzigmMSFxyTuOCYxAXHJC44JnHBMYkLjklccEzigmMSFxyTuOCYxAXHJC44JnHBMYkLjklccEzigmMSFxyTuOCYxAXHJC44JnHBMYkLjklccEzigmMSFxyTuOCYxAXHJC44JnHBMYkLjklccEzigmMSjc/3By0vMCx/CDSiAAAAAElFTkSuQmCC"/>
+        </div>
+        odd = !odd;
+    }    
+</body>
+</html>

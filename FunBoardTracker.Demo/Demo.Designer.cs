@@ -33,6 +33,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkFlip = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cmbSizeMode = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -44,21 +45,22 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cmbFiles = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabPageJira = new System.Windows.Forms.TabPage();
-            this.chkFlip = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.trackContrast = new System.Windows.Forms.TrackBar();
-            this.label8 = new System.Windows.Forms.Label();
             this.trackBrightness = new System.Windows.Forms.TrackBar();
+            this.label8 = new System.Windows.Forms.Label();
+            this.trackContrast = new System.Windows.Forms.TrackBar();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tabPageJira = new System.Windows.Forms.TabPage();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageRecognition.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackContrast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBrightness)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackContrast)).BeginInit();
+            this.tabPageJira.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -128,6 +130,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(855, 34);
             this.panel1.TabIndex = 1;
+            // 
+            // chkFlip
+            // 
+            this.chkFlip.AutoSize = true;
+            this.chkFlip.Location = new System.Drawing.Point(639, 9);
+            this.chkFlip.Name = "chkFlip";
+            this.chkFlip.Size = new System.Drawing.Size(42, 17);
+            this.chkFlip.TabIndex = 11;
+            this.chkFlip.Text = "Flip";
+            this.chkFlip.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
@@ -233,26 +245,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Files:";
             // 
-            // tabPageJira
-            // 
-            this.tabPageJira.Location = new System.Drawing.Point(4, 22);
-            this.tabPageJira.Name = "tabPageJira";
-            this.tabPageJira.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageJira.Size = new System.Drawing.Size(867, 620);
-            this.tabPageJira.TabIndex = 1;
-            this.tabPageJira.Text = "Jira";
-            this.tabPageJira.UseVisualStyleBackColor = true;
-            // 
-            // chkFlip
-            // 
-            this.chkFlip.AutoSize = true;
-            this.chkFlip.Location = new System.Drawing.Point(639, 9);
-            this.chkFlip.Name = "chkFlip";
-            this.chkFlip.Size = new System.Drawing.Size(42, 17);
-            this.chkFlip.TabIndex = 11;
-            this.chkFlip.Text = "Flip";
-            this.chkFlip.UseVisualStyleBackColor = true;
-            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.trackBrightness);
@@ -265,14 +257,26 @@
             this.panel2.Size = new System.Drawing.Size(855, 34);
             this.panel2.TabIndex = 2;
             // 
-            // label7
+            // trackBrightness
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(4, 12);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(46, 13);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Contrast";
+            this.trackBrightness.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trackBrightness.LargeChange = 10;
+            this.trackBrightness.Location = new System.Drawing.Point(374, 4);
+            this.trackBrightness.Maximum = 255;
+            this.trackBrightness.Name = "trackBrightness";
+            this.trackBrightness.Size = new System.Drawing.Size(260, 45);
+            this.trackBrightness.SmallChange = 5;
+            this.trackBrightness.TabIndex = 3;
+            this.trackBrightness.TickFrequency = 10;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(315, 12);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(56, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Brightness";
             // 
             // trackContrast
             // 
@@ -286,26 +290,35 @@
             this.trackContrast.TabIndex = 1;
             this.trackContrast.TickFrequency = 10;
             // 
-            // label8
+            // label7
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(315, 12);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(56, 13);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Brightness";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(4, 12);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(46, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Contrast";
             // 
-            // trackBrightness
+            // tabPageJira
             // 
-            this.trackBrightness.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackBrightness.LargeChange = 10;
-            this.trackBrightness.Location = new System.Drawing.Point(374, 4);
-            this.trackBrightness.Maximum = 255;
-            this.trackBrightness.Name = "trackBrightness";
-            this.trackBrightness.Size = new System.Drawing.Size(260, 45);
-            this.trackBrightness.SmallChange = 5;
-            this.trackBrightness.TabIndex = 3;
-            this.trackBrightness.TickFrequency = 10;
+            this.tabPageJira.Controls.Add(this.btnPrint);
+            this.tabPageJira.Location = new System.Drawing.Point(4, 22);
+            this.tabPageJira.Name = "tabPageJira";
+            this.tabPageJira.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageJira.Size = new System.Drawing.Size(867, 620);
+            this.tabPageJira.TabIndex = 1;
+            this.tabPageJira.Text = "Jira";
+            this.tabPageJira.UseVisualStyleBackColor = true;
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(8, 6);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(75, 23);
+            this.btnPrint.TabIndex = 0;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // Demo
             // 
@@ -323,8 +336,9 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackContrast)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBrightness)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackContrast)).EndInit();
+            this.tabPageJira.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -354,6 +368,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TrackBar trackBrightness;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btnPrint;
     }
 }
 

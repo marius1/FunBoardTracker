@@ -25,7 +25,7 @@ namespace FunBoardTracker.Jira.Greenhopper
         public List<Issue> IncompletedIssues { get; set; }
 
         [JsonProperty(PropertyName = "puntedIssues")]
-        public List<object> PuntedIssues { get; set; }
+        public List<Issue> PuntedIssues { get; set; }
 
         [JsonProperty(PropertyName = "completedIssuesEstimateSum")]
         public EstimateSum CompletedIssuesEstimateSum { get; set; }
@@ -39,7 +39,16 @@ namespace FunBoardTracker.Jira.Greenhopper
         [JsonProperty(PropertyName = "puntedIssuesEstimateSum")]
         public EstimateSum PuntedIssuesEstimateSum { get; set; }
 
-        /*[JsonProperty(PropertyName = "issueKeysAddedDuringSprint")]
-        public IssueKeysAddedDuringSprint issueKeysAddedDuringSprint { get; set; }*/
+        [JsonIgnore]
+        public List<Issue> AllIssues
+        {
+            get
+            {
+                return CompletedIssues.Concat(IncompletedIssues).ToList();
+            }
+        }
+
+        [JsonProperty(PropertyName = "issueKeysAddedDuringSprint")]
+        public Dictionary<string,bool> IssueKeysAddedDuringSprint { get; set; }
     }
 }

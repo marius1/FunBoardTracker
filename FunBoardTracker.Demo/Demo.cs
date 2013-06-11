@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AForge.Imaging.Filters;
 using AForge.Vision.GlyphRecognition;
+using FunBoardTracker.Jira;
+using FunBoardTracker.Jira.Greenhopper;
 using FundaBoardTracker;
 
 namespace FunBoardTracker.Demo
@@ -95,6 +98,48 @@ namespace FunBoardTracker.Demo
                 { 0, 1, 0, 1, 0 }, 
                 { 0, 0, 0, 0, 0 } 
             }));
+            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
+                { 0, 0, 0, 0, 0 }, 
+                { 0, 1, 1, 0, 0 }, 
+                { 0, 1, 0, 1, 0 }, 
+                { 0, 0, 1, 0, 0 }, 
+                { 0, 0, 0, 0, 0 } 
+            }));
+            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
+                { 0, 0, 0, 0, 0 }, 
+                { 0, 1, 1, 0, 0 }, 
+                { 0, 0, 1, 1, 0 }, 
+                { 0, 1, 1, 0, 0 }, 
+                { 0, 0, 0, 0, 0 } 
+            }));
+            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
+                { 0, 0, 0, 0, 0 }, 
+                { 0, 1, 0, 0, 0 }, 
+                { 0, 0, 1, 0, 0 }, 
+                { 0, 1, 0, 1, 0 }, 
+                { 0, 0, 0, 0, 0 } 
+            }));
+            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
+                { 0, 0, 0, 0, 0 }, 
+                { 0, 0, 0, 1, 0 }, 
+                { 0, 1, 1, 1, 0 }, 
+                { 0, 0, 1, 0, 0 }, 
+                { 0, 0, 0, 0, 0 } 
+            }));
+            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
+                { 0, 0, 0, 0, 0 }, 
+                { 0, 1, 1, 1, 0 }, 
+                { 0, 0, 0, 1, 0 }, 
+                { 0, 0, 1, 0, 0 }, 
+                { 0, 0, 0, 0, 0 } 
+            }));
+            /*issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
+                { 0, 0, 0, 0, 0 }, 
+                { 0, 0, 0, 0, 0 }, 
+                { 0, 0, 0, 0, 0 }, 
+                { 0, 0, 0, 0, 0 }, 
+                { 0, 0, 0, 0, 0 } 
+            }));*/
             #endregion
 
             cmbRecognizer.Items.Add(new Recognizer { Name = "Issue", GlyphRecognizer = new GlyphRecognizer(issueDb) });
@@ -129,6 +174,8 @@ namespace FunBoardTracker.Demo
             BrightnessCorrection bright = new BrightnessCorrection(trackBrightness.Value);
             bright.ApplyInPlace(bmp);
 
+            // TODO: need MOAR!
+            recognizer.GlyphRecognizer.MaxNumberOfGlyphsToSearch = 10;
             List<ExtractedGlyphData> foundGlyphs = recognizer.GlyphRecognizer.FindGlyphs(bmp);
 
             using (Graphics g = Graphics.FromImage(bmp))
@@ -172,6 +219,19 @@ namespace FunBoardTracker.Demo
         {
             PictureBoxSizeMode mode = (PictureBoxSizeMode) cmbSizeMode.SelectedItem;
             pictureBox.SizeMode = mode;
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            string username = ConfigurationManager.AppSettings["JiraUsername"];
+            string password = ConfigurationManager.AppSettings["JiraPassword"];
+            Client jiraClient = new Client(username, password);
+            int sprintId = jiraClient.GetSprintsByRapidViewId(37).First(c => !c.Closed).Id;
+            SprintReport sprintReport = jiraClient.GetSprintReport(37, sprintId);
+            
+            var issuePrinter = new IssuePrinter(sprintReport.Contents.AllIssues);
+            issuePrinter.Print();
+            MessageBox.Show("Done!");
         }
     }
 }
