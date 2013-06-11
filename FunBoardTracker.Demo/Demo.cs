@@ -91,55 +91,9 @@ namespace FunBoardTracker.Demo
 
             GlyphDatabase issueDb = new GlyphDatabase(5);
             #region Issues
-            issueDb.Add(new Glyph("test", new byte[5, 5] { 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 1, 1, 0, 0 }, 
-                { 0, 0, 1, 0, 0 }, 
-                { 0, 1, 0, 1, 0 }, 
-                { 0, 0, 0, 0, 0 } 
-            }));
-            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 1, 1, 0, 0 }, 
-                { 0, 1, 0, 1, 0 }, 
-                { 0, 0, 1, 0, 0 }, 
-                { 0, 0, 0, 0, 0 } 
-            }));
-            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 1, 1, 0, 0 }, 
-                { 0, 0, 1, 1, 0 }, 
-                { 0, 1, 1, 0, 0 }, 
-                { 0, 0, 0, 0, 0 } 
-            }));
-            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 1, 0, 0, 0 }, 
-                { 0, 0, 1, 0, 0 }, 
-                { 0, 1, 0, 1, 0 }, 
-                { 0, 0, 0, 0, 0 } 
-            }));
-            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 1, 0 }, 
-                { 0, 1, 1, 1, 0 }, 
-                { 0, 0, 1, 0, 0 }, 
-                { 0, 0, 0, 0, 0 } 
-            }));
-            issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 1, 1, 1, 0 }, 
-                { 0, 0, 0, 1, 0 }, 
-                { 0, 0, 1, 0, 0 }, 
-                { 0, 0, 0, 0, 0 } 
-            }));
-            /*issueDb.Add(new Glyph("copy me", new byte[5, 5] { 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0 } 
-            }));*/
+            foreach (Glyph g in IssueGlyphs.Glyphs.Values)
+                issueDb.Add(g);
+
             #endregion
 
             cmbRecognizer.Items.Add(new Recognizer { Name = "Issue", GlyphRecognizer = new GlyphRecognizer(issueDb) });

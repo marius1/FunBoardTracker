@@ -12,6 +12,7 @@
     </assemblyBinding>
   </runtime>
   <appSettings>
+    <add key="JiraBaseUrl" value=""/>
     <add key="JiraUsername" value=""/>
     <add key="JiraPassword" value=""/>
   </appSettings>

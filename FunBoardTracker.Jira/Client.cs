@@ -12,7 +12,7 @@ namespace FunBoardTracker.Jira
 {
     public class Client
     {
-        SimpleRestClient simpleRestClient;
+        private SimpleRestClient simpleRestClient;
 
         public Client(string username, string password)
         {
