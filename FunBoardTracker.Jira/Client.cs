@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FunBoardTracker.Jira.Greenhopper;
 using Newtonsoft.Json;
+using System.Configuration;
 
 namespace FunBoardTracker.Jira
 {
@@ -14,9 +15,13 @@ namespace FunBoardTracker.Jira
     {
         private SimpleRestClient simpleRestClient;
 
-        public Client(string username, string password)
+        public Client()
         {
-            simpleRestClient = new SimpleRestClient("https://jira.funda.nl/", new NetworkCredential(username, password));
+            string username = ConfigurationManager.AppSettings["JiraUsername"];
+            string password = ConfigurationManager.AppSettings["JiraPassword"];
+            string baseUrl = ConfigurationManager.AppSettings["JiraBaseUrl"];
+
+            simpleRestClient = new SimpleRestClient(baseUrl, new NetworkCredential(username, password));
         }
 
         public List<RapidView> GetRapidViews()

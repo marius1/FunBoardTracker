@@ -71,6 +71,14 @@ namespace FunBoardTracker
                     { 0, 0, 0, 0, 0 } 
                 })
             },
+            { IssueGlyph.G, new Glyph("G", new byte[5, 5] { 
+                    { 0, 0, 0, 0, 0 }, 
+                    { 0, 1, 0, 0, 0 }, 
+                    { 0, 1, 0, 1, 0 }, 
+                    { 0, 1, 0, 0, 0 }, 
+                    { 0, 0, 0, 0, 0 } 
+                })
+            }
             /*{ IssueGlyph., new Glyph("", new byte[5, 5] { 
                     { 0, 0, 0, 0, 0 }, 
                     { 0, 0, 0, 0, 0 }, 

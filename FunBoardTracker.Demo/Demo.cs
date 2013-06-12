@@ -177,9 +177,7 @@ namespace FunBoardTracker.Demo
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            string username = ConfigurationManager.AppSettings["JiraUsername"];
-            string password = ConfigurationManager.AppSettings["JiraPassword"];
-            Client jiraClient = new Client(username, password);
+            Client jiraClient = new Client();
             int sprintId = jiraClient.GetSprintsByRapidViewId(37).First(c => !c.Closed).Id;
             SprintReport sprintReport = jiraClient.GetSprintReport(37, sprintId);
             
