@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using FunBoardTracker.Jira.Greenhopper;
+using FunBoardTracker.Jira.Search;
 using Newtonsoft.Json;
 using System.Configuration;
 
@@ -46,6 +47,20 @@ namespace FunBoardTracker.Jira
         {
             var data = simpleRestClient.Get<SprintReport>(String.Format("rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId={0}&sprintId={1}", rapidViewId, sprintId));
             return data;
+        }
+
+        public Dictionary<string, int> GetSprintOrder(int sprintId)
+        {
+            var data = simpleRestClient.Get<Results>(String.Format("rest/api/2/search?jql=Sprint%20%3D%20{0}%20ORDER%20BY%20Rank&fields=key&maxResults=500", sprintId));
+            
+            Dictionary<string, int> order = new Dictionary<string, int>();
+            int i = 1;
+            foreach (Search.Issue issue in data.Issues)
+            {
+                order[issue.Key] = i++;
+            }
+
+            return order;
         }
     }
 }

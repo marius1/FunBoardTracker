@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -38,6 +38,10 @@
     <Reference Include="AForge.Imaging">
       <HintPath>..\ExternalDll\AForge.Imaging.dll</HintPath>
     </Reference>
+    <Reference Include="AForge.Math, Version=2.2.4.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\gratf-2.0.1-src\References\AForge.NET\AForge.Math.dll</HintPath>
+    </Reference>
     <Reference Include="AForge.Vision.GlyphRecognition">
       <HintPath>..\ExternalDll\AForge.Vision.GlyphRecognition.dll</HintPath>
     </Reference>
@@ -59,9 +63,13 @@
     <Compile Include="Demo.Designer.cs">
       <DependentUpon>Demo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demo.Recognition.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recognizer.cs" />
+    <Compile Include="SwimLaneArea.cs" />
     <EmbeddedResource Include="Demo.resx">
       <DependentUpon>Demo.cs</DependentUpon>
     </EmbeddedResource>
@@ -88,6 +96,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GenerateGlyphsCrap.txt" />
     <Content Include="TestImages\IMG_20130506_110001.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

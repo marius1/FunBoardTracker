@@ -55,7 +55,7 @@ namespace FunBoardTracker.Jira.Greenhopper
         public EstimateStatistic EstimateStatistic { get; set; }
 
         [JsonProperty(PropertyName = "statusId")]
-        public string StatusId { get; set; }
+        public int StatusId { get; set; }
 
         [JsonProperty(PropertyName = "statusName")]
         public string StatusName { get; set; }
@@ -71,5 +71,12 @@ namespace FunBoardTracker.Jira.Greenhopper
 
         [JsonProperty(PropertyName = "epic")]
         public string Epic { get; set; }
+
+        public override string ToString()
+        {
+            return Key;
+        }
+
+        public Status Status { get { return (Status) StatusId; } }
     }
 }

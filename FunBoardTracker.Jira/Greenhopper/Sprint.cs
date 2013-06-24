@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FunBoardTracker.Jira.Greenhopper.Converters;
+using FunBoardTracker.Jira.Converters;
 using Newtonsoft.Json;
 
 namespace FunBoardTracker.Jira.Greenhopper

@@ -15,41 +15,31 @@ using RazorEngine;
 
 namespace FunBoardTracker
 {
-    public class IssuePrinter
+    public class IssuePdfGenerator
     {
-        private List<Issue> _issues;
+        private List<TrackerIssue> _issues;
         private GlobalConfig gc;
+        private SimplePechkin pechkin;
+        
+        public string OutputPath { get; set; }
 
-        public IssuePrinter(List<Issue> issues)
+        public IssuePdfGenerator(List<TrackerIssue> issues)
         {
             _issues = issues;
+
+            OutputPath = String.Empty;
 
             // setup Pechkin
             gc = new GlobalConfig();
             gc.SetPaperSize(PaperKind.A4);
             gc.SetOutputDpi(96);
-            gc.SetMargins(15, 15, 15, 15);
+            gc.SetMargins(15, 15, 22, 15);
 
+            pechkin = new SimplePechkin(gc);
         }
 
-        public void Print()
+        public string GeneratePdf()
         {
-            var glyph = new Glyph("test", new byte[5,5]
-                {
-                    {0, 0, 0, 0, 0},
-                    {0, 1, 1, 0, 0},
-                    {0, 0, 1, 0, 0},
-                    {0, 1, 0, 1, 0},
-                    {0, 0, 0, 0, 0}
-                });
-
-            using (Bitmap image = GlyphHelper.CreateGlyphImage(glyph, 250))
-            using (MemoryStream stream = new MemoryStream())
-            {
-                image.Save(stream, ImageFormat.Png);
-                string img = Convert.ToBase64String(stream.ToArray());
-            }
-
             IssuesModel model = new IssuesModel
                 {
                     Issues = _issues
@@ -57,10 +47,12 @@ namespace FunBoardTracker
 
             string template = File.ReadAllText(@"Templates\Issues.cshtml");
             string html = Razor.Parse<IssuesModel>(template, model);
-
-            var pechkin = new SimplePechkin(gc);
             byte[] pdf = pechkin.Convert(html);
-            File.WriteAllBytes(@"out.pdf", pdf);
+
+            string filename = Path.Combine(OutputPath, DateTime.Now.ToShortDateString() + ".pdf");
+            File.WriteAllBytes(filename, pdf);
+
+            return filename;
         }
     }
 }

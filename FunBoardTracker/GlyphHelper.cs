@@ -10,6 +10,11 @@ namespace FunBoardTracker
 {
     public class GlyphHelper
     {
+        public static Bitmap CreateGlyphIcon(Glyph glyph)
+        {
+            return CreateGlyphImage(glyph, 32);
+        }
+
         public static Bitmap CreateGlyphImage(Glyph glyph, int width)
         {
             Bitmap bitmap = new Bitmap(width, width, System.Drawing.Imaging.PixelFormat.Format32bppArgb);

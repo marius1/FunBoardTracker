@@ -1,0 +1,280 @@
+﻿
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button1.Enabled = false;
+            byte[][] a = new byte[7][];
+
+            /*a[0] = new byte[3] {1,1,0};
+            a[1] = new byte[3] {1,0,1};
+            a[2] = new byte[3] {1,0,0};
+            a[3] = new byte[3] {0,1,1};
+            a[4] = new byte[3] {0,1,0};
+            a[5] = new byte[3] {0,0,1};
+            a[6] = new byte[3] {1,1,1};*/
+
+            a[0] = new byte[3] { 0, 0, 1 };
+            a[1] = new byte[3] { 0, 1, 0 };
+            a[2] = new byte[3] { 0, 1, 1 };
+            a[3] = new byte[3] { 1, 0, 0 };
+            a[4] = new byte[3] { 1, 0, 1 };
+            a[5] = new byte[3] { 1, 1, 0 };
+            a[6] = new byte[3] { 1, 1, 1 };
+            
+            /*byte[][] print = new byte[3][]
+                {
+                    new byte[3] {1, 1, 1},
+                    new byte[3] {1, 1, 1},
+                    new byte[3] {1, 1, 1}
+                };*/
+
+            foreach (string file in Directory.GetFiles("glyphs"))
+            {
+                File.Delete(file);
+            }
+
+            byte[][] print = new byte[3][]
+                {
+                    new byte[3] {0, 0, 0},
+                    new byte[3] {0, 0, 0},
+                    new byte[3] {0, 0, 0}
+                };
+
+            string filename = "";
+            
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    for (int k = 0; k < 3; k++)
+                    {
+                        for (int l = 0; l < 7; l++)
+                        {
+                            for (int m = 0; m < 7; m++)
+                            {
+                                for (int n = 0; n < 7; n++)
+                                {
+                                    print[i] = a[l];
+                                    print[j] = a[m];
+                                    print[k] = a[n];
+
+                                    if (!ShouldPrint(print, out filename)) continue;
+                                    byte[][] c = new byte[3][];
+                                    print.CopyTo(c, 0);
+                                    glyphs.Add(c);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            SaveAllGlyphs();
+
+            
+
+            button1.Enabled = true;
+        }
+
+        private void SaveAllGlyphs()
+        {
+            int id = 0;
+
+            var randomlyOrdered = glyphs.OrderBy(i => Guid.NewGuid());
+
+            foreach (var d in randomlyOrdered)
+            {
+                //CreateGlyphImage(glyph.Value, 250).Save(String.Format("glyphs\\{0}.png", glyph.Key), ImageFormat.Png);
+                BinaryWriter(d, id);
+                id++;
+            }
+        }
+
+        private void Write(string line)
+        {
+            File.AppendAllText("glyphs\\glyphs.txt", line + Environment.NewLine);
+        }
+
+        private void BinaryWriter(byte[][] print, int id)
+        {
+
+            Write(String.Format("{{ {0}, new IssueGlyph({0}, new byte[5, 5] {{ ", id));
+            Write("        { 0, 0, 0, 0, 0 }, ");
+
+            for (int i = 0; i < 3; i++)
+            {
+                Write(String.Format("        {{ 0, {0}, {1}, {2}, 0 }},", print[i][0], print[i][1], print[i][2]));
+            }
+
+            Write("        { 0, 0, 0, 0, 0 } ");
+            Write("    })");
+            Write("},");
+            Write("");
+        }
+
+        private List<byte[][]> glyphs = new List<byte[][]>(); 
+
+        private bool CheckRotations(byte[][] data)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                data = Rotate(data);
+
+                if (saved.Contains(GetString(data)))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private byte[][] Rotate(byte[][] d)
+        {
+            byte[][] a = new byte[3][]
+                    {
+                        new byte[3] {0, 0, 0},
+                        new byte[3] {0, 0, 0},
+                        new byte[3] {0, 0, 0}
+                    };
+
+            for (int i = 2; i >= 0; --i)
+            {
+                for (int j = 0; j < 3; ++j)
+                {
+                    a[j][2 - i] = d[i][j];
+                }
+            }
+
+            return a;
+        }
+
+        private string GetString(byte[][] d)
+        {
+            string n = "";
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    n += d[i][j].ToString();
+                }
+            }
+
+            return n;
+        }
+
+        public static bool CheckIfEveryRowColumnHasValue(byte[,] rawGlyphData)
+        {
+            int size = rawGlyphData.GetLength(0);
+
+            if (size != rawGlyphData.GetLength(1))
+            {
+                throw new ArgumentException("Invalid glyph data array - must be square.");
+            }
+
+            int sizeM1 = size;
+
+            byte[] rows = new byte[sizeM1];
+            byte[] cols = new byte[sizeM1];
+
+            for (int i = 0; i < sizeM1; i++)
+            {
+                for (int j = 0; j < sizeM1; j++)
+                {
+                    byte value = rawGlyphData[i, j];
+
+                    rows[i] |= value;
+                    cols[j] |= value;
+                }
+            }
+
+            for (int i = 0; i < sizeM1; i++)
+            {
+                if ((rows[i] == 0) || (cols[i] == 0))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private List<string> saved = new List<string>();
+
+        public bool ShouldPrint(byte[][] data, out string n)
+        {
+            n = "";
+            int k = 0;
+
+            byte[,] a = new byte[3,3];
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    a[i, j] = data[i][j];
+                    n += data[i][j].ToString();
+                    k += data[i][j];
+                }
+            }
+
+            if (k > 7)
+                return false;
+
+            if (saved.Contains(n))
+                return false;
+
+            if (!(CheckIfEveryRowColumnHasValue(a) && !Glyph.CheckIfRotationInvariant(a)))
+                return false;
+
+            if (!CheckRotations(data))
+                return false;
+
+            saved.Add(n);
+
+            return true;
+        }
+
+        public static Bitmap CreateGlyphImage(byte[][] data, int width)
+        {
+            Bitmap bitmap = new Bitmap(width, width, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            byte[][] print = new byte[5][]
+                {
+                    new byte[5] {0,0,0,0,0}, 
+                    new byte[5] {0,0,0,0,0}, 
+                    new byte[5] {0,0,0,0,0}, 
+                    new byte[5] {0,0,0,0,0}, 
+                    new byte[5] {0,0,0,0,0}
+                };
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    print[i + 1][j + 1] = data[i][j];
+                }
+            }
+
+
+            int cellSize = width / print.Length;
+            int glyphSize = print.Length;
+
+            for (int i = 0; i < width; i++)
+            {
+                int yCell = i / cellSize;
+
+                for (int j = 0; j < width; j++)
+                {
+                    int xCell = j / cellSize;
+
+                    if ((yCell >= glyphSize) || (xCell >= glyphSize))
+                    {
+                        // set pixel to transparent if it outside of the glyph
+                        bitmap.SetPixel(j, i, Color.Transparent);
+                    }
+                    else
+                    {
+                        // set pixel to black or white depending on glyph value
+                        bitmap.SetPixel(j, i,
+                            (print[yCell][xCell] == 0) ? Color.Black : Color.White);
+                    }
+                }
+            }
+            
+            return bitmap;
+        }

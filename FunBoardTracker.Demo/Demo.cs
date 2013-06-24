@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AForge.Imaging.Filters;
 using AForge.Vision.GlyphRecognition;
+using FunBoardTracker.GlyphDb;
 using FunBoardTracker.Jira;
 using FunBoardTracker.Jira.Greenhopper;
 using FundaBoardTracker;
@@ -19,171 +23,199 @@ namespace FunBoardTracker.Demo
 {
     public partial class Demo : Form
     {
+        private Client jiraClient;
+        private List<TrackerIssue> issues = new List<TrackerIssue>();
+        private int issueId = 0;
+        private ContextMenu jiraMenu;
+        
         public Demo()
         {
             InitializeComponent();
+            
             InitializeFiles();
             InitializeRecognizers();
-            InitializeSizeModes();
+ 
+            new Thread(InitializeJira).Start();
+
+            ImageList imageList = Issues.GetImageList();
+            lstTodo.LargeImageList = imageList;
+            lstDoing.LargeImageList = imageList;
+            lstTest.LargeImageList = imageList;
+            lstDone.LargeImageList = imageList;
+
+            jiraMenu = new ContextMenu(new MenuItem[] { new MenuItem("Print", PrintTickedOnClick) });
         }
 
-        #region Initialize
-
-        private void InitializeSizeModes()
+        private void PrintTickedOnClick(object sender, EventArgs eventArgs)
         {
-            cmbSizeMode.Items.AddRange(new object[]
+            MessageBox.Show(sender.ToString());
+            /*var pdfGenerator = new IssuePdfGenerator(issues);
+            string filename = pdfGenerator.GeneratePdf();
+            Process.Start(filename);*/
+        }
+
+        private void InitializeJira()
+        {
+            jiraClient = new Client();
+
+            List<RapidView> rapidViews = jiraClient.GetRapidViews();
+            this.Invoke((MethodInvoker) delegate
                 {
-                    PictureBoxSizeMode.AutoSize,
-                    PictureBoxSizeMode.CenterImage,
-                    PictureBoxSizeMode.Normal,
-                    PictureBoxSizeMode.StretchImage,
-                    PictureBoxSizeMode.Zoom
+                    cmbRapidViews.Items.AddRange(rapidViews.ToArray());
+                    // team object hack
+                    cmbRapidViews.SelectedIndex = rapidViews.FindIndex(i => i.Id == 37);
+
+                    cmbRapidViews.Enabled = true;
+                    btnGetIssues.Enabled = true;
                 });
-            cmbSizeMode.SelectedItem = PictureBoxSizeMode.Zoom;
-        }
-
-        private void InitializeRecognizers()
-        {
-            GlyphDatabase boundryDb = new GlyphDatabase(6);
-            #region Boundry
-            boundryDb.Add(new Glyph("TODO TL", new byte[6, 6] { 
-                { 0, 0, 0, 0, 0, 0 }, 
-                { 0, 1, 1, 1, 0, 0 },
-                { 0, 0, 0, 1, 1, 0 }, 
-                { 0, 0, 1, 0, 0, 0 }, 
-                { 0, 1, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0, 0 } 
-            }));
-            boundryDb.Add(new Glyph("TODO TR", new byte[6, 6] { 
-                { 0, 0, 0, 0, 0, 0 }, 
-                { 0, 1, 0, 0, 0, 0 },
-                { 0, 1, 1, 1, 1, 0 }, 
-                { 0, 0, 1, 0, 0, 0 }, 
-                { 0, 1, 0, 0, 1, 0 }, 
-                { 0, 0, 0, 0, 0, 0 } 
-            }));
-            boundryDb.Add(new Glyph("TODO BL", new byte[6, 6] { 
-                { 0, 0, 0, 0, 0, 0 }, 
-                { 0, 0, 1, 0, 0, 0 },
-                { 0, 1, 0, 1, 1, 0 }, 
-                { 0, 0, 1, 0, 0, 0 }, 
-                { 0, 0, 0, 1, 1, 0 }, 
-                { 0, 0, 0, 0, 0, 0 } 
-            }));
-            boundryDb.Add(new Glyph("TODO BR", new byte[6, 6] { 
-                { 0, 0, 0, 0, 0, 0 }, 
-                { 0, 1, 0, 0, 1, 0 },
-                { 0, 1, 1, 1, 0, 0 }, 
-                { 0, 1, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 1, 0 }, 
-                { 0, 0, 0, 0, 0, 0 } 
-            }));
-            /*boundryDb.Add(new Glyph("copy me", new byte[6, 6] { 
-                { 0, 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0, 0 } 
-            }));*/
-
-            #endregion
-
-            GlyphDatabase issueDb = new GlyphDatabase(5);
-            #region Issues
-            foreach (Glyph g in IssueGlyphs.Glyphs.Values)
-                issueDb.Add(g);
-
-            #endregion
-
-            cmbRecognizer.Items.Add(new Recognizer { Name = "Issue", GlyphRecognizer = new GlyphRecognizer(issueDb) });
-            cmbRecognizer.Items.Add(new Recognizer { Name = "Boundry", GlyphRecognizer = new GlyphRecognizer(boundryDb) });
-            cmbRecognizer.Items.Add(new Recognizer { Name = "Six", GlyphRecognizer = new GlyphRecognizer(6) });
-            cmbRecognizer.Items.Add(new Recognizer { Name = "Five", GlyphRecognizer = new GlyphRecognizer(5) });
-            cmbRecognizer.SelectedIndex = 0;
-        }
-
-        private void InitializeFiles()
-        {
-            string[] files = Directory.GetFiles(@"TestImages");
-            cmbFiles.Items.AddRange(files);
-            cmbFiles.SelectedIndex = 0;
-        }
-
-        #endregion
-
-        private void DoRecognition(Bitmap bmp)
-        {
-            Recognizer recognizer = (Recognizer)cmbRecognizer.SelectedItem;
-
-            if (chkFlip.Checked)
-            {
-                BaseRotateFilter rotate = new RotateBilinear(180);
-                bmp = rotate.Apply(bmp);
-            }
-
-            ContrastCorrection contract = new ContrastCorrection(trackContrast.Value);
-            contract.ApplyInPlace(bmp);
-
-            BrightnessCorrection bright = new BrightnessCorrection(trackBrightness.Value);
-            bright.ApplyInPlace(bmp);
-
-            // TODO: need MOAR!
-            recognizer.GlyphRecognizer.MaxNumberOfGlyphsToSearch = 10;
-            List<ExtractedGlyphData> foundGlyphs = recognizer.GlyphRecognizer.FindGlyphs(bmp);
-
-            using (Graphics g = Graphics.FromImage(bmp))
-            {
-                using (Pen p = new Pen(Color.Red, 3))
-                {
-                    foreach (var c in foundGlyphs)
-                    {
-                        List<Point> points = new List<Point>();
-                        foreach (var d in c.Quadrilateral)
-                            points.Add(new Point(d.X, d.Y));
-
-                        g.DrawPolygon(p, points.ToArray());
-                        if (c.RecognizedGlyph != null)
-                            g.DrawString(c.RecognizedGlyph.Name, new Font(FontFamily.GenericMonospace, 20, FontStyle.Bold), Brushes.Red, points[0]);
-                    }
-                }
-            }
-
-            pictureBox.Image = bmp;
-        }
-
-        private void btnFile_Click(object sender, EventArgs e)
-        {
-            if (cmbFiles.SelectedIndex < 0)
-                return;
-
-            Bitmap img = new Bitmap(cmbFiles.SelectedItem.ToString());
-            DoRecognition(img);
-        }
-
-        private void btnFrame_Click(object sender, EventArgs e)
-        {
-            Grabber grabber = new Grabber();
-            Bitmap bmp = grabber.Grab();
-            DoRecognition(bmp);
-            grabber.Dispose();
-        }
-
-        private void cmbSizeMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            PictureBoxSizeMode mode = (PictureBoxSizeMode) cmbSizeMode.SelectedItem;
-            pictureBox.SizeMode = mode;
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            Client jiraClient = new Client();
-            int sprintId = jiraClient.GetSprintsByRapidViewId(37).First(c => !c.Closed).Id;
-            SprintReport sprintReport = jiraClient.GetSprintReport(37, sprintId);
-            
-            var issuePrinter = new IssuePrinter(sprintReport.Contents.AllIssues);
-            issuePrinter.Print();
-            MessageBox.Show("Done!");
+            btnPrint.Enabled = false;
+            new Thread(GeneratePdf).Start();
+        }
+
+        private void GeneratePdf()
+        {
+            var pdfGenerator = new IssuePdfGenerator(issues);
+            string filename = pdfGenerator.GeneratePdf();
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                btnPrint.Enabled = true;
+            });
+
+            Process.Start(filename);
+        }
+
+        private void btnGetIssues_Click(object sender, EventArgs e)
+        {
+            btnGetIssues.Enabled = false;
+            new Thread(GetIssues).Start();
+        }
+
+        private void GetIssues()
+        {
+            this.Invoke((MethodInvoker) delegate
+                {
+                    ClearIssues();
+
+                    RapidView rapidView = (RapidView) cmbRapidViews.SelectedItem;
+
+                    var sprints = jiraClient.GetSprintsByRapidViewId(rapidView.Id);
+
+                    if (sprints.Any(c => !c.Closed))
+                    {
+
+                        int sprintId = sprints.First(c => !c.Closed).Id;
+                        SprintReport sprintReport = jiraClient.GetSprintReport(rapidView.Id, sprintId);
+                        Dictionary<string, int> order = jiraClient.GetSprintOrder(sprintId);
+
+                        foreach (Issue issue in sprintReport.Contents.AllIssues)
+                        {
+                            int id = issueId++;
+                            if (id > GlyphDb.Issues.Glyphs.Count || !GlyphDb.Issues.Glyphs.ContainsKey(id))
+                            {
+                                continue;
+                            }
+
+                            TrackerIssue trackerIssue = new TrackerIssue(issue, GlyphDb.Issues.Glyphs[id]);
+                            trackerIssue.Order = order[issue.Key];
+                            issues.Add(trackerIssue);
+                        }
+
+                        issues = issues.OrderBy(i => i.Order).ToList();
+
+                        if (issues.Count > 0)
+                        {
+                            LoadIssues();
+                            btnPrint.Enabled = true;
+                        }
+                    }
+                    btnGetIssues.Enabled = true;
+                });
+        }
+
+        private void LoadIssues()
+        {
+            double todo = 0;
+            double doing = 0;
+            double test = 0;
+            double done = 0;
+
+            foreach (TrackerIssue issue in issues)
+            {
+                switch (issue.Issue.Status)
+                {
+                    case Status.Open:
+                        lstTodo.Items.Add(GetListViewItemFromIssue(issue));
+                        todo += issue.Issue.EstimateStatistic.StatFieldValue.Value;
+                        break;
+                    case Status.InProgress:
+                        lstDoing.Items.Add(GetListViewItemFromIssue(issue));
+                        doing += issue.Issue.EstimateStatistic.StatFieldValue.Value;
+                        break;
+                    case Status.ReadyForQa:
+                    case Status.QaInProgress:
+                        lstTest.Items.Add(GetListViewItemFromIssue(issue));
+                        test += issue.Issue.EstimateStatistic.StatFieldValue.Value;
+                        break;
+                    case Status.Resolved:
+                    case Status.Closed:
+                        lstDone.Items.Add(GetListViewItemFromIssue(issue));
+                        done += issue.Issue.EstimateStatistic.StatFieldValue.Value;
+                        break;
+                }
+            }
+
+            lblTodo.Text  = String.Format("Todo: {0} issues - {1} points", lstTodo.Items.Count, todo);
+            lblDoing.Text = String.Format("Doing: {0} issues - {1} points", lstDoing.Items.Count, doing);
+            lblTest.Text  = String.Format("Test: {0} issues - {1} points", lstTest.Items.Count, test);
+            lblDone.Text  = String.Format("Done: {0} issues - {1} points", lstDone.Items.Count, done);
+        }
+
+        private ListViewItem GetListViewItemFromIssue(TrackerIssue issue)
+        {
+            ListViewItem item = new ListViewItem
+                {
+                    Name = issue.Issue.Key, 
+                    Text = issue.Issue.Key,
+                    ImageKey = issue.Glyph.Id.ToString(), 
+                    Tag = issue
+                };
+
+            return item;
+        }
+
+        private void JiraLaneMouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                ListView s = sender as ListView;
+                if (s != null && s.FocusedItem.Bounds.Contains(e.Location))
+                {
+                    jiraMenu.Show(s, e.Location);
+                }
+            }
+        }
+
+        private void ClearIssues()
+        {
+            lstTodo.Items.Clear();
+            lstDoing.Items.Clear();
+            lstTest.Items.Clear();
+            lstDone.Items.Clear();
+
+            lblTodo.Text = "Todo";
+            lblDoing.Text = "Doing";
+            lblTest.Text = "Test";
+            lblDone.Text = "Done";
+
+            issues.Clear();
+
+            btnPrint.Enabled = false;
+            issueId = 0;
         }
     }
 }

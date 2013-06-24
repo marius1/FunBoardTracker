@@ -9,6 +9,6 @@ namespace FunBoardTracker.Templates
 {
     public class IssuesModel
     {
-        public List<Issue> Issues { get; set; } 
+        public List<TrackerIssue> Issues { get; set; } 
     }
 }

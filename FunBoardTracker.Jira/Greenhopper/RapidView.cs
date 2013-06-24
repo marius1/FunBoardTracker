@@ -32,5 +32,10 @@ namespace FunBoardTracker.Jira.Greenhopper
 
         [JsonProperty(PropertyName = "filter")]
         public Filter Filter { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

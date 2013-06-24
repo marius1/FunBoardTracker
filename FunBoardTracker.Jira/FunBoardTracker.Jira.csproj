@@ -11,6 +11,8 @@
     <AssemblyName>FunBoardTracker.Jira</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,11 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Greenhopper\EstimateStatistic.cs" />
     <Compile Include="Greenhopper\EstimateSum.cs" />
     <Compile Include="Greenhopper\Filter.cs" />
     <Compile Include="Greenhopper\Issue.cs" />
-    <Compile Include="Greenhopper\Converters\JiraDateTimeConverter.cs" />
+    <Compile Include="Converters\JiraDateTimeConverter.cs" />
     <Compile Include="Greenhopper\Owner.cs" />
     <Compile Include="Greenhopper\PermissionEntry.cs" />
     <Compile Include="Greenhopper\RapidView.cs" />
@@ -57,12 +60,16 @@
     <Compile Include="Greenhopper\StatFieldValue.cs" />
     <Compile Include="Greenhopper\Value.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search\Issue.cs" />
+    <Compile Include="Search\Results.cs" />
     <Compile Include="SimpleRestClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

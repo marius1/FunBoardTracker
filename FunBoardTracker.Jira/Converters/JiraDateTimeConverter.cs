@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace FunBoardTracker.Jira.Greenhopper.Converters
+namespace FunBoardTracker.Jira.Converters
 {
     public class JiraDateTimeConverter : DateTimeConverterBase
     {
