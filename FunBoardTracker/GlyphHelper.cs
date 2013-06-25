@@ -12,7 +12,7 @@ namespace FunBoardTracker
     {
         public static Bitmap CreateGlyphIcon(Glyph glyph)
         {
-            return CreateGlyphImage(glyph, 32);
+            return CreateGlyphImage(glyph, 64);
         }
 
         public static Bitmap CreateGlyphImage(Glyph glyph, int width)

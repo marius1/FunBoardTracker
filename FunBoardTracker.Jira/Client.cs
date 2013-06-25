@@ -62,5 +62,11 @@ namespace FunBoardTracker.Jira
 
             return order;
         }
+
+        private bool DoTransition(string key)
+        {
+            string postData = "{\"transition\": { \"id\": \"{0}\"}}";
+            return false;
+        }
     }
 }

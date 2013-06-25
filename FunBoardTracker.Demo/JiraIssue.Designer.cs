@@ -46,10 +46,10 @@
             // lblKey
             // 
             this.lblKey.AutoSize = true;
-            this.lblKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblKey.Location = new System.Drawing.Point(73, 3);
+            this.lblKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblKey.Location = new System.Drawing.Point(68, 3);
             this.lblKey.Name = "lblKey";
-            this.lblKey.Size = new System.Drawing.Size(49, 25);
+            this.lblKey.Size = new System.Drawing.Size(35, 20);
             this.lblKey.TabIndex = 1;
             this.lblKey.Text = "Key";
             // 
@@ -59,9 +59,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSummary.AutoEllipsis = true;
-            this.lblSummary.Location = new System.Drawing.Point(78, 32);
+            this.lblSummary.Location = new System.Drawing.Point(67, 23);
             this.lblSummary.Name = "lblSummary";
-            this.lblSummary.Size = new System.Drawing.Size(169, 26);
+            this.lblSummary.Size = new System.Drawing.Size(69, 44);
             this.lblSummary.TabIndex = 2;
             this.lblSummary.Text = "Summary";
             // 
@@ -69,7 +69,7 @@
             // 
             this.lblStorypoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStorypoints.AutoSize = true;
-            this.lblStorypoints.Location = new System.Drawing.Point(234, 3);
+            this.lblStorypoints.Location = new System.Drawing.Point(125, 3);
             this.lblStorypoints.Name = "lblStorypoints";
             this.lblStorypoints.Size = new System.Drawing.Size(13, 13);
             this.lblStorypoints.TabIndex = 3;
@@ -79,12 +79,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblStorypoints);
             this.Controls.Add(this.lblSummary);
             this.Controls.Add(this.lblKey);
             this.Controls.Add(this.glyphImage);
+            this.Controls.Add(this.lblStorypoints);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "JiraIssue";
-            this.Size = new System.Drawing.Size(250, 70);
+            this.Size = new System.Drawing.Size(141, 70);
+            this.Load += new System.EventHandler(this.JiraIssue_Load);
             ((System.ComponentModel.ISupportInitialize)(this.glyphImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

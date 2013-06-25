@@ -80,6 +80,8 @@ namespace FunBoardTracker.Demo
 
             List<SwimLanePolygon> swinLanes = new List<SwimLanePolygon>();
 
+            List<TrackerIssue> issuesToMove = new List<TrackerIssue>();
+
             using (Graphics g = Graphics.FromImage(bmp))
             using (Pen red = new Pen(Color.Red, 2))
             using (Pen darkblue = new Pen(Color.DarkBlue, 2))
@@ -174,7 +176,15 @@ namespace FunBoardTracker.Demo
                             if (swinlane != null)
                             {
                                 issue.BoardStatus = swinlane.BoardStatus;
-                                p = (swinlane.JiraStatuses.Contains(issue.Issue.Status)) ? green : red;
+                                if (swinlane.JiraStatuses.Contains(issue.Issue.Status))
+                                {
+                                    p = green;
+                                }
+                                else
+                                {
+                                    p = red;
+                                    issuesToMove.Add(issue);
+                                }
                             }
                         }
                     }
@@ -187,6 +197,22 @@ namespace FunBoardTracker.Demo
             }
 
             pictureBox.Image = bmp;
+
+            if (issuesToMove.Count > 0)
+            {
+                string message = "The following issues should be moved in Jira:" + Environment.NewLine +
+                                 "------------------------------------------------" + Environment.NewLine;
+                foreach (TrackerIssue trackerIssue in issuesToMove)
+                {
+                    message += String.Format("{0}: {1} -> {2}" + Environment.NewLine, 
+                        trackerIssue.Issue.Key,  
+                        StatusHelper.JiraStatusToBoardStatus(trackerIssue.Issue.Status), 
+                        trackerIssue.BoardStatus
+                   );
+                }
+
+                MessageBox.Show(message);
+            }
         }
 
         private Point PointFromAForgePoint(AForge.Point point)

@@ -40,7 +40,6 @@ namespace FunBoardTracker.Demo
             this.cmbRapidViews = new System.Windows.Forms.ComboBox();
             this.btnGetIssues = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
-            this.lstTodo = new System.Windows.Forms.ListView();
             this.lstDoing = new System.Windows.Forms.ListView();
             this.lstTest = new System.Windows.Forms.ListView();
             this.lstDone = new System.Windows.Forms.ListView();
@@ -66,6 +65,7 @@ namespace FunBoardTracker.Demo
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblCoordinates = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblIssueKey = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lstTodo = new System.Windows.Forms.ListView();
             this.tabPageJira.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -102,11 +102,11 @@ namespace FunBoardTracker.Demo
             this.tableLayoutPanel2.Controls.Add(this.lblTest, 2, 1);
             this.tableLayoutPanel2.Controls.Add(this.lblDoing, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.panel3, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.lstTodo, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.lstDoing, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.lstTest, 2, 2);
             this.tableLayoutPanel2.Controls.Add(this.lstDone, 3, 2);
             this.tableLayoutPanel2.Controls.Add(this.lblTodo, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.lstTodo, 0, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -204,16 +204,6 @@ namespace FunBoardTracker.Demo
             this.btnPrint.Text = "Print";
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
-            // 
-            // lstTodo
-            // 
-            this.lstTodo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstTodo.Location = new System.Drawing.Point(3, 63);
-            this.lstTodo.Name = "lstTodo";
-            this.lstTodo.Size = new System.Drawing.Size(209, 526);
-            this.lstTodo.TabIndex = 1;
-            this.lstTodo.UseCompatibleStateImageBehavior = false;
-            this.lstTodo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.JiraLaneMouseClick);
             // 
             // lstDoing
             // 
@@ -480,6 +470,15 @@ namespace FunBoardTracker.Demo
             this.lblIssueKey.Name = "lblIssueKey";
             this.lblIssueKey.Size = new System.Drawing.Size(0, 17);
             // 
+            // lstTodo
+            // 
+            this.lstTodo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstTodo.Location = new System.Drawing.Point(3, 63);
+            this.lstTodo.Name = "lstTodo";
+            this.lstTodo.Size = new System.Drawing.Size(209, 526);
+            this.lstTodo.TabIndex = 9;
+            this.lstTodo.UseCompatibleStateImageBehavior = false;
+            // 
             // Demo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -523,7 +522,6 @@ namespace FunBoardTracker.Demo
         private System.Windows.Forms.ComboBox cmbRapidViews;
         private System.Windows.Forms.Button btnGetIssues;
         private System.Windows.Forms.Button btnPrint;
-        private System.Windows.Forms.ListView lstTodo;
         private System.Windows.Forms.ListView lstDoing;
         private System.Windows.Forms.ListView lstTest;
         private System.Windows.Forms.ListView lstDone;
@@ -549,6 +547,7 @@ namespace FunBoardTracker.Demo
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel lblCoordinates;
         private System.Windows.Forms.ToolStripStatusLabel lblIssueKey;
+        private ListView lstTodo;
 
     }
 }
