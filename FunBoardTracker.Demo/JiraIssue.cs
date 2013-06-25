@@ -32,6 +32,7 @@ namespace FunBoardTracker.Demo
         {
             this.Width = this.Parent.Width;
             this.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            
         }
     }
 }

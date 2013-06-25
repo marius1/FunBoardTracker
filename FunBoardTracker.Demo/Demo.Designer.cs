@@ -44,6 +44,7 @@ namespace FunBoardTracker.Demo
             this.lstTest = new System.Windows.Forms.ListView();
             this.lstDone = new System.Windows.Forms.ListView();
             this.lblTodo = new System.Windows.Forms.Label();
+            this.lstTodo = new System.Windows.Forms.ListView();
             this.tabPageRecognition = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
@@ -61,11 +62,14 @@ namespace FunBoardTracker.Demo
             this.label8 = new System.Windows.Forms.Label();
             this.trackContrast = new System.Windows.Forms.TrackBar();
             this.label7 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.lblHover = new System.Windows.Forms.Label();
+            this.lblStats = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblCoordinates = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblIssueKey = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lstTodo = new System.Windows.Forms.ListView();
             this.tabPageJira.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -76,6 +80,7 @@ namespace FunBoardTracker.Demo
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBrightness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackContrast)).BeginInit();
+            this.panel4.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -249,6 +254,16 @@ namespace FunBoardTracker.Demo
             this.lblTodo.Text = "Todo";
             this.lblTodo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lstTodo
+            // 
+            this.lstTodo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstTodo.Location = new System.Drawing.Point(3, 63);
+            this.lstTodo.Name = "lstTodo";
+            this.lstTodo.Size = new System.Drawing.Size(209, 526);
+            this.lstTodo.TabIndex = 9;
+            this.lstTodo.UseCompatibleStateImageBehavior = false;
+            this.lstTodo.View = System.Windows.Forms.View.Tile;
+            // 
             // tabPageRecognition
             // 
             this.tabPageRecognition.Controls.Add(this.tableLayoutPanel1);
@@ -262,11 +277,13 @@ namespace FunBoardTracker.Demo
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBox, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panel4, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -279,6 +296,7 @@ namespace FunBoardTracker.Demo
             // 
             // pictureBox
             // 
+            this.tableLayoutPanel1.SetColumnSpan(this.pictureBox, 2);
             this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox.Location = new System.Drawing.Point(3, 83);
             this.pictureBox.Name = "pictureBox";
@@ -302,7 +320,7 @@ namespace FunBoardTracker.Demo
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(855, 34);
+            this.panel1.Size = new System.Drawing.Size(705, 34);
             this.panel1.TabIndex = 1;
             // 
             // chkFlip
@@ -391,7 +409,7 @@ namespace FunBoardTracker.Demo
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 43);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(855, 34);
+            this.panel2.Size = new System.Drawing.Size(705, 34);
             this.panel2.TabIndex = 2;
             // 
             // trackBrightness
@@ -436,6 +454,42 @@ namespace FunBoardTracker.Demo
             this.label7.TabIndex = 0;
             this.label7.Text = "Contrast";
             // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.lblHover);
+            this.panel4.Controls.Add(this.lblStats);
+            this.panel4.Controls.Add(this.label10);
+            this.panel4.Location = new System.Drawing.Point(714, 3);
+            this.panel4.Name = "panel4";
+            this.tableLayoutPanel1.SetRowSpan(this.panel4, 2);
+            this.panel4.Size = new System.Drawing.Size(144, 74);
+            this.panel4.TabIndex = 3;
+            // 
+            // lblHover
+            // 
+            this.lblHover.Location = new System.Drawing.Point(4, 22);
+            this.lblHover.Name = "lblHover";
+            this.lblHover.Size = new System.Drawing.Size(137, 52);
+            this.lblHover.TabIndex = 2;
+            // 
+            // lblStats
+            // 
+            this.lblStats.AutoSize = true;
+            this.lblStats.Location = new System.Drawing.Point(35, 5);
+            this.lblStats.Name = "lblStats";
+            this.lblStats.Size = new System.Drawing.Size(10, 13);
+            this.lblStats.TabIndex = 1;
+            this.lblStats.Text = "-";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(4, 5);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(34, 13);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Stats:";
+            // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabPageRecognition);
@@ -470,15 +524,6 @@ namespace FunBoardTracker.Demo
             this.lblIssueKey.Name = "lblIssueKey";
             this.lblIssueKey.Size = new System.Drawing.Size(0, 17);
             // 
-            // lstTodo
-            // 
-            this.lstTodo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstTodo.Location = new System.Drawing.Point(3, 63);
-            this.lstTodo.Name = "lstTodo";
-            this.lstTodo.Size = new System.Drawing.Size(209, 526);
-            this.lstTodo.TabIndex = 9;
-            this.lstTodo.UseCompatibleStateImageBehavior = false;
-            // 
             // Demo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -502,6 +547,8 @@ namespace FunBoardTracker.Demo
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBrightness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackContrast)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
@@ -548,6 +595,10 @@ namespace FunBoardTracker.Demo
         private System.Windows.Forms.ToolStripStatusLabel lblCoordinates;
         private System.Windows.Forms.ToolStripStatusLabel lblIssueKey;
         private ListView lstTodo;
+        private Panel panel4;
+        private Label lblStats;
+        private Label label10;
+        private Label lblHover;
 
     }
 }

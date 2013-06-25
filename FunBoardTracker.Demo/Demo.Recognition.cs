@@ -81,6 +81,7 @@ namespace FunBoardTracker.Demo
             List<SwimLanePolygon> swinLanes = new List<SwimLanePolygon>();
 
             List<TrackerIssue> issuesToMove = new List<TrackerIssue>();
+            int detectedIssues = 0;
 
             using (Graphics g = Graphics.FromImage(bmp))
             using (Pen red = new Pen(Color.Red, 2))
@@ -185,6 +186,8 @@ namespace FunBoardTracker.Demo
                                     p = red;
                                     issuesToMove.Add(issue);
                                 }
+
+                                detectedIssues++;
                             }
                         }
                     }
@@ -197,6 +200,8 @@ namespace FunBoardTracker.Demo
             }
 
             pictureBox.Image = bmp;
+
+            lblStats.Text = String.Format("{0}/{1}", detectedIssues, issues.Count);
 
             if (issuesToMove.Count > 0)
             {
@@ -269,20 +274,30 @@ namespace FunBoardTracker.Demo
             if (recognizedIssueBoundries.Count > 0)
             {
                 lblIssueKey.Text = "";
+                lblHover.Text = "";
 
                 foreach (KeyValuePair<string, Rectangle> rectangle in recognizedIssueBoundries)
                 {
                     if (rectangle.Value.Contains(CursorToUnscaledPoint(e.Location)))
                     {
                         string text = rectangle.Key;
+                        string hover = String.Format("Issue id: {0}", rectangle.Key);
 
                         TrackerIssue issue = issues.FirstOrDefault(i => i.Issue.Key == rectangle.Key);
                         if (issue != null)
                         {
                             text = String.Format("{0} - {1} - {2}", issue.Issue.Key, StatusHelper.JiraStatusToBoardStatus(issue.Issue.Status), issue.BoardStatus);
+                            hover = String.Format("Issue key: {1}{0}Jira status: {2}{0}Translated status: {3}{0}Board status: {4}",
+                                                  Environment.NewLine,
+                                                  issue.Issue.Key,
+                                                  issue.Issue.Status,
+                                                  StatusHelper.JiraStatusToBoardStatus(issue.Issue.Status),
+                                                  issue.BoardStatus
+                                                );
                         }
 
                         lblIssueKey.Text = text;
+                        lblHover.Text = hover;
                     }
                 }
             }
@@ -327,6 +342,7 @@ namespace FunBoardTracker.Demo
         private void pictureBox_MouseLeave(object sender, EventArgs e)
         {
             lblCoordinates.Text = "";
+            lblHover.Text = "";
         }
     }
 }

@@ -150,7 +150,6 @@ namespace FunBoardTracker.Demo
                 {
                     case Status.Open:
                         lstTodo.Items.Add(GetListViewItemFromIssue(issue));
-                        //todoFlow.Controls.Add(new JiraIssue(issue) { Width = todoFlow.Width });
                         todo += issue.Issue.EstimateStatistic.StatFieldValue.Value;
                         break;
                     case Status.InProgress:
